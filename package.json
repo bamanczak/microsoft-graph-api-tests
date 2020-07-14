@@ -1,0 +1,55 @@
+{
+  "name": "microsoft-graph-api-tests",
+  "version": "1.0.0",
+  "description": "This is Proof of Concept for Microsoft 365 automation using Graph",
+  "homepage": "https://github.com/bamanczak/microsoft-graph-api-tests",
+  "dependencies": {
+    "@microsoft/microsoft-graph-client": "^2.0.0",
+    "chai": "^4.2.0",
+    "es6-promise": "^4.2.8",
+    "isomorphic-fetch": "^2.2.1",
+    "mocha": "^5.2.0",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.9.6"
+  },
+  "devDependencies": {
+    "@angular/compiler": "^7.2.16",
+    "@angular/core": "^7.2.16",
+    "@microsoft/microsoft-graph-types": "^1.13.0",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^5.2.7",
+    "chai-http": "^4.3.0",
+    "codelyzer": "^4.5.0",
+    "mochawesome": "^3.1.2",
+    "rimraf": "^2.7.1",
+    "rxjs": "^6.6.0",
+    "tslint": "^5.20.1",
+    "typings": "^2.1.1",
+    "zone.js": "^0.8.29"
+  },
+  "scripts": {
+    "clean": "rimraf temp/ && rimraf test-results/",
+    "pretest": "npm run clean",
+    "test": "mocha -r ts-node/register test-suites/*.spec.ts --reporter mochawesome --reporter-options reportDir=test-results"
+  },
+  "keywords": [
+    "mocha",
+    "chai",
+    "typescript",
+    "javascript",
+    "angular",
+    "angularjs",
+    "vscode",
+    "testing",
+    "selenium",
+    "webdriverJS",
+    "automation testing",
+    "BDD"
+  ],
+  "author": "bamanczak",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bamanczak/microsoft-graph-api-tests.git"
+  }
+}
