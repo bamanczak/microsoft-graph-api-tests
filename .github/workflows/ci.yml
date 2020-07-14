@@ -35,4 +35,10 @@ jobs:
         USER1_PASSWORD: ${{ secrets.USER1_PASSWORD }}
         USER2_EMAIL: ${{ secrets.USER2_EMAIL }}
         USER2_PASSWORD: ${{ secrets.USER2_PASSWORD }}
+    
+    - name: Install npm dependencies
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: test-results/
 
