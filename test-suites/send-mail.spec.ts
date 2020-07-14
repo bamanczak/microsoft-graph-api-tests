@@ -1,15 +1,13 @@
-import { MailApi } from '../page-objects/mail.po';
-import { MailHelper } from '../page-objects/mail.helper';
-
-
 import { expect } from 'chai';
 import * as chai from 'chai';
 import 'mocha';
 import chaiHttp = require('chai-http');
 import * as MicrosoftGraph from "@microsoft/microsoft-graph-types"
 import "isomorphic-fetch";
-let user1_accessToken: string;
-let user2_accessToken: string;
+
+import { MailApi } from '../page-objects/mail.po';
+import { MailHelper } from '../page-objects/mail.helper';
+
 const user1_email: string = process.env.USER1_EMAIL;
 const user2_email: string = process.env.USER2_EMAIL;
 const user1_password: string = process.env.USER1_PASSWORD;
@@ -17,10 +15,9 @@ const user2_password: string = process.env.USER2_PASSWORD;
 const myUtils: MailHelper = new MailHelper();
 const mailApi: MailApi = new MailApi();
 
+let user1_accessToken: string;
+let user2_accessToken: string;
 
-if (!global.Promise) {
-    global.Promise = require('q');
-}
 chai.use(chaiHttp);
 
 describe('Send e-mail tests: ', () => {
@@ -32,7 +29,7 @@ describe('Send e-mail tests: ', () => {
             user1_accessToken = await myUtils.getAccessToken(user1_email, user1_password),
             user2_accessToken = await myUtils.getAccessToken(user2_email, user2_password)
         ]);
-      });
+    });
 
 
 
@@ -101,7 +98,7 @@ describe('Send e-mail tests: ', () => {
                     "name": "hello.txt",
                     "contentType": "text/plain",
                     "contentBytes": "SGVsbG8gV29ybGQh"
-                  }
+                }
             ]
         };
         return mailApi
