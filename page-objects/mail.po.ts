@@ -3,7 +3,6 @@ import "isomorphic-fetch";
 
 const domain: string = "https://graph.microsoft.com/v1.0/"
 
-
 export class MailApi {
     sendEmail(accessToken: string, mail) {
         let url = domain + "me/sendMail";
