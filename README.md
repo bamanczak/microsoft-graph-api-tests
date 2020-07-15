@@ -65,3 +65,6 @@ For security reasons, the data required to authenticate to the Microsoft Graph a
 
 ## Continuous Integration
 CI was configured using GitHub Actions. The configuration file is stored in `.github/workflows/ci.yml`. CI job is triggered after each commit. CI stores test artifacts in GitHub, which can be accessed in the [Actions tab](https://github.com/bamanczak/microsoft-graph-api-tests/actions) for individual test runs.
+
+To see a failing CI build you can see it on a [Sample Pull Request](https://github.com/bamanczak/microsoft-graph-api-tests/pull/2) in this repository.
+![Sample failing CI build](./images/test-results-ci-fail.png?raw=true "Sample failing CI build")
