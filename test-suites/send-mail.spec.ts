@@ -50,7 +50,7 @@ describe('Send e-mail tests: ', () => {
 
         return mailApi
             .sendEmail(user1_accessToken, mail)
-            .then((response) => expect(response).to.have.status(202))
+            .then((response) => expect(response).to.have.status(401))
             .then(() => myUtils.sleep(3000)) // wait for e-mail to be delivered
             .then(() => mailApi.getLatestEmail(user2_accessToken))
             .then((mail) => {
@@ -101,7 +101,7 @@ describe('Send e-mail tests: ', () => {
             .then((id) => mailApi.getAttachments(user1_accessToken, id))
             .then((attachments) => {
                 expect(attachments).to.not.equal(null);
-                expect(attachments[0].name).to.equal(attachmentOne["name"]);
+                expect(attachments[0].name).to.equal("attachmentName.txt");
                 expect(attachments[0].contentBytes).to.equal(attachmentOne["contentBytes"]);
                 expect(attachments[1].name).to.equal(attachmentTwo["name"]);
                 expect(attachments[1].contentBytes).to.equal(attachmentTwo["contentBytes"]);
