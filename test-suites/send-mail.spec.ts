@@ -32,6 +32,7 @@ describe('Send e-mail tests: ', () => {
     });
 
     it('Should deliver simple e-mail as written', () => {
+        // Prepare test data: e-mail to be sent
         let date: Date = new Date();
         let testMailSubject: string = "[POTATO] Test sent on: " + date;
         let testMailContent: string = "<h1>This is a test potato with email</h1>It has a link to <a href=\"https://en.wikipedia.org/wiki/Potato\">the potato wiki page</a>."
@@ -48,6 +49,7 @@ describe('Send e-mail tests: ', () => {
             }
         }
 
+        // Execute test
         return mailApi
             .sendEmail(user1_accessToken, mail)
             .then((response) => expect(response).to.have.status(202))
@@ -60,6 +62,7 @@ describe('Send e-mail tests: ', () => {
     }).timeout(7000);
 
     it('Should deliver e-mail with an attachment, as written', () => {
+        // Prepare test data: e-mail with attachments to be sent
         let date: Date = new Date();
         let testMailSubject: string = "[POTATO] Response Test sent on: " + date;
         let testMailContent: string = "In the attached file you can find a nice potato";
@@ -88,6 +91,8 @@ describe('Send e-mail tests: ', () => {
             },
             attachments: [attachmentOne, attachmentTwo]
         };
+
+        // Execute test
         return mailApi
             .sendEmail(user2_accessToken, mail)
             .then((response) => expect(response).to.have.status(202))
@@ -106,6 +111,5 @@ describe('Send e-mail tests: ', () => {
                 expect(attachments[1].name).to.equal(attachmentTwo["name"]);
                 expect(attachments[1].contentBytes).to.equal(attachmentTwo["contentBytes"]);
             });
-
     }).timeout(7000);
 })
