@@ -1,19 +1,19 @@
-import * as MicrosoftGraph from "@microsoft/microsoft-graph-types"
-import "isomorphic-fetch";
+import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
+import 'isomorphic-fetch';
 
-const domain: string = "https://graph.microsoft.com/v1.0/"
+const domain = 'https://graph.microsoft.com/v1.0/';
 
 export class MailApi {
     sendEmail(accessToken: string, mail) {
-        let url = domain + "me/sendMail";
-        let request = new Request(
+        const url = domain + 'me/sendMail';
+        const request = new Request(
             url, {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify({
                 message: mail
             }),
             headers: new Headers({
-                "Authorization": "Bearer " + accessToken,
+                'Authorization': 'Bearer ' + accessToken,
                 'Content-Type': 'application/json'
             })
         }
@@ -23,11 +23,11 @@ export class MailApi {
     }
 
     getEmail(accessToken: string) {
-        let url = domain + "me/messages";
-        let readMailRequest = new Request(url, {
-            method: "GET",
+        const url = domain + 'me/messages';
+        const readMailRequest = new Request(url, {
+            method: 'GET',
             headers: new Headers({
-                "Authorization": "Bearer " + accessToken
+                'Authorization': 'Bearer ' + accessToken
             })
         });
 
@@ -38,17 +38,17 @@ export class MailApi {
         return this.getEmail(accessToken)
             .then((response) => response.json())
             .then((res) => {
-                let messages: [MicrosoftGraph.Message] = res.value;
+                const messages: [MicrosoftGraph.Message] = res.value;
                 return messages[0];
             });
     }
 
     getAttachments(accessToken: string, mailId: string) {
-        let url = domain + "me/messages/" + mailId + "/attachments";
-        let getAttachmentsRequest = new Request(url, {
-            method: "GET",
+        const url = domain + 'me/messages/' + mailId + '/attachments';
+        const getAttachmentsRequest = new Request(url, {
+            method: 'GET',
             headers: new Headers({
-                "Authorization": "Bearer " + accessToken
+                'Authorization': 'Bearer ' + accessToken
             })
         });
 
