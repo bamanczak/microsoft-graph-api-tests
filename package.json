@@ -30,7 +30,7 @@
   "scripts": {
     "clean": "rimraf temp/ && rimraf test-results/",
     "pretest": "npm run clean",
-    "test": "mocha -r ts-node/register test-suites/*.spec.ts --reporter mochawesome --reporter-options reportDir=test-results"
+    "test": "mocha -r ts-node/register test-suites/*.spec.ts --reporter mochawesome --reporter-options reportDir=test-results --timeout 7000"
   },
   "keywords": [
     "mocha",

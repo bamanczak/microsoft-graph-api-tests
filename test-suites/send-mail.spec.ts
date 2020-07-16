@@ -12,7 +12,7 @@ const user1_email: string = process.env.USER1_EMAIL;
 const user2_email: string = process.env.USER2_EMAIL;
 const user1_password: string = process.env.USER1_PASSWORD;
 const user2_password: string = process.env.USER2_PASSWORD;
-const myUtils: MailHelper = new MailHelper();
+const mailHelper: MailHelper = new MailHelper();
 const mailApi: MailApi = new MailApi();
 
 let user1_accessToken: string;
@@ -21,20 +21,15 @@ let user2_accessToken: string;
 chai.use(chaiHttp);
 
 describe('Send e-mail tests: ', () => {
-    
+
     before(async function () {
-        // Increase default timeout
-        this.timeout(5000);
-        Promise.all([
-            user1_accessToken = await myUtils.getAccessToken(user1_email, user1_password),
-            user2_accessToken = await myUtils.getAccessToken(user2_email, user2_password)
-        ]);
+        user1_accessToken = await mailHelper.getAccessToken(user1_email, user1_password),
+        user2_accessToken = await mailHelper.getAccessToken(user2_email, user2_password)
     });
 
     it('Should deliver simple e-mail as written', () => {
-        // Prepare test data: e-mail to be sent
         let date: Date = new Date();
-        let testMailSubject: string = "[POTATO] Test sent on: " + date;
+        let testMailSubject: string = `[POTATO] Test sent on: ${date}`;
         let testMailContent: string = "<h1>This is a test potato with email</h1>It has a link to <a href=\"https://en.wikipedia.org/wiki/Potato\">the potato wiki page</a>."
         let mail: MicrosoftGraph.Message = {
             subject: testMailSubject,
@@ -49,22 +44,20 @@ describe('Send e-mail tests: ', () => {
             }
         }
 
-        // Execute test
         return mailApi
             .sendEmail(user1_accessToken, mail)
             .then((response) => expect(response).to.have.status(202))
-            .then(() => myUtils.sleep(3000)) // wait for e-mail to be delivered
+            .then(() => mailHelper.sleep(3000)) // wait for e-mail to be delivered
             .then(() => mailApi.getLatestEmail(user2_accessToken))
             .then((mail) => {
                 expect(mail.subject).to.equal(testMailSubject);
                 expect(mail.body.content).to.contain(testMailContent);
             });
-    }).timeout(7000);
+    });
 
     it('Should deliver e-mail with an attachment, as written', () => {
-        // Prepare test data: e-mail with attachments to be sent
         let date: Date = new Date();
-        let testMailSubject: string = "[POTATO] Response Test sent on: " + date;
+        let testMailSubject: string = `[POTATO] Response Test sent on: ${date}`;
         let testMailContent: string = "In the attached file you can find a nice potato";
         let attachmentOne = {
             "@odata.type": "#microsoft.graph.fileAttachment",
@@ -74,9 +67,9 @@ describe('Send e-mail tests: ', () => {
         };
         let attachmentTwo = {
             "@odata.type": "#microsoft.graph.fileAttachment",
-            "name": "hello.txt",
-            "contentType": "text/plain",
-            "contentBytes": "SGVsbG8gV29ybGQh"
+            name: "hello.txt",
+            contentType: "text/plain",
+            contentBytes: "SGVsbG8gV29ybGQh"
         };
         let mail = {
             subject: testMailSubject,
@@ -92,11 +85,10 @@ describe('Send e-mail tests: ', () => {
             attachments: [attachmentOne, attachmentTwo]
         };
 
-        // Execute test
         return mailApi
             .sendEmail(user2_accessToken, mail)
             .then((response) => expect(response).to.have.status(202))
-            .then(() => myUtils.sleep(3000)) // wait for e-mail to be delivered
+            .then(() => mailHelper.sleep(3000)) // wait for e-mail to be delivered
             .then(() => mailApi.getLatestEmail(user1_accessToken))
             .then((mail) => {
                 expect(mail.subject).to.equal(testMailSubject);
@@ -106,10 +98,10 @@ describe('Send e-mail tests: ', () => {
             .then((id) => mailApi.getAttachments(user1_accessToken, id))
             .then((attachments) => {
                 expect(attachments).to.not.equal(null);
-                expect(attachments[0].name).to.equal(attachmentOne["name"]);
-                expect(attachments[0].contentBytes).to.equal(attachmentOne["contentBytes"]);
-                expect(attachments[1].name).to.equal(attachmentTwo["name"]);
-                expect(attachments[1].contentBytes).to.equal(attachmentTwo["contentBytes"]);
+                expect(attachments[0].name).to.equal(attachmentOne.name);
+                expect(attachments[0].contentBytes).to.equal(attachmentOne.contentBytes);
+                expect(attachments[1].name).to.equal(attachmentTwo.name);
+                expect(attachments[1].contentBytes).to.equal(attachmentTwo.contentBytes);
             });
-    }).timeout(7000);
+    });
 })
